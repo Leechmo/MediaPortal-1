@@ -144,6 +144,12 @@ namespace TvLibrary.Implementations.DVB
     /// <returns><c>true</c> if the power supply state is set successfully, otherwise <c>false</c></returns>
     public bool SetPowerState(bool powerOn)
     {
+      if(!IsGeniatech)
+      { //needed to prevent disposal of geniatech object from leading to a tune attempt if Geniatech device not supported
+        //may be a more graceful way to do this but it was preventing Mediaportal from finding my device as it was lower 
+        //in the list of device types checked in ConditionalAccess
+        return false;
+      }
       Log.Log.Debug("Geniatech: set power state, on = {0}", powerOn);
 
       KSPropertySupport support;
